@@ -35,6 +35,7 @@ class PIPView extends StatefulWidget {
 
 class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   Widget? _bottomWidget;
+  bool _shouldShowTopWidget = true;
 
   void presentBelow(Widget widget) {
     dismissKeyboard(context);
@@ -44,6 +45,16 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
   void stopFloating() {
     dismissKeyboard(context);
     setState(() => _bottomWidget = null);
+  }
+
+  bool get isFloating => _bottomWidget != null && _shouldShowTopWidget;
+
+  // NOTE: floating を終了しつつ、下側のウィジェットに置き換える
+  void replaceToBelow() {
+    dismissKeyboard(context);
+    setState(() {
+      _shouldShowTopWidget = false;
+    });
   }
 
   @override
@@ -59,12 +70,14 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
             )
           : null,
       onTapTopWidget: isFloating ? stopFloating : null,
-      topWidget: IgnorePointer(
-        ignoring: isFloating,
-        child: Builder(
-          builder: (context) => widget.builder(context, isFloating),
-        ),
-      ),
+      topWidget: _shouldShowTopWidget
+          ? IgnorePointer(
+              ignoring: isFloating,
+              child: Builder(
+                builder: (context) => widget.builder(context, isFloating),
+              ),
+            )
+          : null,
       floatingHeight: widget.floatingHeight,
       floatingWidth: widget.floatingWidth,
       initialCorner: widget.initialCorner,
