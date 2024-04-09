@@ -8,6 +8,7 @@ class PIPView extends StatefulWidget {
   final double? floatingWidth;
   final double? floatingHeight;
   final bool avoidKeyboard;
+  final EdgeInsets padding;
 
   final Widget Function(
     BuildContext context,
@@ -21,6 +22,7 @@ class PIPView extends StatefulWidget {
     this.floatingWidth,
     this.floatingHeight,
     this.avoidKeyboard = true,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override
@@ -66,6 +68,7 @@ class PIPViewState extends State<PIPView> with TickerProviderStateMixin {
       floatingHeight: widget.floatingHeight,
       floatingWidth: widget.floatingWidth,
       initialCorner: widget.initialCorner,
+      padding: widget.padding,
     );
   }
 }

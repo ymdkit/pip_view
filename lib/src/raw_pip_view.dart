@@ -14,6 +14,7 @@ class RawPIPView extends StatefulWidget {
   // causes the tap to be lost sometimes because it
   // is competing with the drag
   final void Function()? onTapTopWidget;
+  final EdgeInsets padding;
 
   const RawPIPView({
     Key? key,
@@ -24,6 +25,7 @@ class RawPIPView extends StatefulWidget {
     this.topWidget,
     this.bottomWidget,
     this.onTapTopWidget,
+    this.padding = EdgeInsets.zero,
   }) : super(key: key);
 
   @override
@@ -139,7 +141,7 @@ class RawPIPViewState extends State<RawPIPView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    var windowPadding = mediaQuery.padding;
+    var windowPadding = mediaQuery.padding + widget.padding;
     if (widget.avoidKeyboard) {
       windowPadding += mediaQuery.viewInsets;
     }
